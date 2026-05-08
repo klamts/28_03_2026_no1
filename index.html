@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🥦 Fresh Food vs 🥫 Canned Food — Mind Map</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --fresh: #2E7D32; --fresh-light: #E8F5E9; --fresh-mid: #66BB6A;
+  --canned: #E65100; --canned-light: #FFF3E0; --canned-mid: #FFA726;
+  --adv: #1565C0; --adv-light: #E3F2FD;
+  --dis: #B71C1C; --dis-light: #FFEBEE;
+  --yellow: #FFD600; --bg: #FAFFF6;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 15% 20%, rgba(102,187,106,0.13) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 80%, rgba(255,167,38,0.12) 0%, transparent 50%);
+  min-height: 100vh; padding-bottom: 60px;
+}
+
+/* ── HERO ── */
+.hero { text-align: center; padding: 38px 20px 14px; }
+.hero h1 {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(1.8rem,5vw,3.2rem); color: #1B5E20;
+  text-shadow: 3px 3px 0 #FFD600, 5px 5px 0 rgba(0,0,0,0.07); line-height: 1.15;
+}
+.hero .sub {
+  display: inline-block; margin-top: 10px;
+  background: #fff; border-radius: 50px;
+  padding: 7px 24px; font-weight: 800; font-size: 0.95rem; color: #555;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+
+/* ── VIETNAMESE TOGGLE ── */
+.vn-toggle-wrap { display: flex; justify-content: center; margin: 14px 0 4px; }
+.vn-toggle {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #fff; border: 3px solid #D32F2F; border-radius: 50px;
+  padding: 9px 24px; font-family: 'Nunito', sans-serif;
+  font-weight: 800; font-size: 0.92rem; color: #D32F2F;
+  cursor: pointer; transition: all 0.25s;
+  box-shadow: 0 3px 12px rgba(211,47,47,0.15);
+}
+.vn-toggle:hover { background: #FFEBEE; transform: scale(1.05); }
+.vn-toggle.active { background: #D32F2F; color: white; box-shadow: 0 4px 16px rgba(211,47,47,0.35); }
+
+/* Vietnamese text — hidden by default */
+.vn { display: none; }
+body.show-vn .vn {
+  display: block;
+  color: #B71C1C; font-style: italic;
+  font-size: 0.84em; margin-top: 3px; line-height: 1.4;
+}
+/* inline vn inside headings */
+body.show-vn span.vn { display: inline; }
+
+/* ── NAV TABS ── */
+.tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 16px 16px 20px; }
+.tab {
+  font-weight: 800; font-size: 0.85rem; padding: 8px 20px; border-radius: 50px;
+  border: 3px solid; cursor: pointer; background: #fff; transition: all 0.2s; text-decoration: none;
+}
+.tab.tf { color: var(--fresh); border-color: var(--fresh-mid); }
+.tab.tc { color: var(--canned); border-color: var(--canned-mid); }
+.tab.tb { color: var(--adv); border-color: #42A5F5; }
+.tab:hover { transform: scale(1.06); opacity: 0.85; }
+
+/* ── SECTION ── */
+.section { max-width: 1100px; margin: 0 auto 50px; padding: 0 18px; }
+.section-title {
+  font-family: 'Fredoka One', cursive; font-size: 1.5rem; color: white;
+  display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  border-radius: 50px; padding: 10px 28px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15); margin-bottom: 28px;
+}
+.st-fresh  { background: linear-gradient(90deg,#1B5E20,#43A047); }
+.st-canned { background: linear-gradient(90deg,#BF360C,#FF7043); }
+.st-compare{ background: linear-gradient(90deg,#0D47A1,#1E88E5); }
+.st-opinion{ background: linear-gradient(90deg,#4A148C,#AB47BC); }
+.st-summary{ background: linear-gradient(90deg,#1A237E,#3949AB); }
+
+/* ── MIND MAP ── */
+.mindmap { display: flex; flex-direction: column; align-items: center; }
+.center-node {
+  z-index: 10; border-radius: 24px; padding: 16px 36px;
+  font-family: 'Fredoka One', cursive; font-size: 1.6rem;
+  color: white; text-align: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18); min-width: 220px;
+}
+.cn-fresh  { background: linear-gradient(135deg,#2E7D32,#66BB6A); }
+.cn-canned { background: linear-gradient(135deg,#BF360C,#FF8F00); }
+.vline { width: 3px; background: rgba(0,0,0,0.15); margin: 0 auto; border-radius: 3px; height: 30px; }
+.hbar {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  position: relative; padding: 0 22%; margin-bottom: 14px; width: 100%;
+}
+.hbar::before {
+  content: ''; position: absolute; top: 0; left: 22%; right: 22%;
+  height: 3px; background: rgba(0,0,0,0.13); border-radius: 3px;
+}
+.hbar .tick { width: 3px; height: 20px; background: rgba(0,0,0,0.13); border-radius: 3px; }
+.branches { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 100%; }
+.branch-col { display: flex; flex-direction: column; gap: 14px; }
+.branch-head {
+  border-radius: 18px; padding: 13px 18px;
+  font-family: 'Fredoka One', cursive; font-size: 1.2rem;
+  color: white; display: flex; align-items: center; gap: 10px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+.bh-adv { background: linear-gradient(135deg,#1565C0,#42A5F5); }
+.bh-dis  { background: linear-gradient(135deg,#B71C1C,#EF5350); }
+.leaves {
+  display: flex; flex-direction: column; gap: 10px;
+  padding-left: 16px; border-left: 3px dashed rgba(0,0,0,0.12); margin-left: 20px;
+}
+
+/* ── LEAF ── */
+.leaf {
+  background: white; border-radius: 14px; padding: 12px 16px;
+  font-weight: 700; font-size: 0.93rem; color: #333;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07); border-left: 5px solid;
+  line-height: 1.5; transition: transform 0.2s, box-shadow 0.2s; cursor: default;
+}
+.leaf:hover { transform: translateX(4px) scale(1.01); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+.leaf.adv-leaf { border-color: #42A5F5; }
+.leaf.dis-leaf { border-color: #EF5350; }
+.leaf .leaf-title {
+  font-family: 'Fredoka One', cursive; font-size: 1rem;
+  display: block; margin-bottom: 4px; color: #1A237E;
+}
+.leaf.dis-leaf .leaf-title { color: #B71C1C; }
+.leaf .leaf-body { font-size: 0.88rem; font-weight: 700; color: #555; line-height: 1.5; }
+
+/* ── QUESTION BUBBLE inside leaf ── */
+.leaf-q {
+  background: #E3F2FD; border-left: 4px solid #1E88E5;
+  border-radius: 10px; padding: 8px 12px; margin-bottom: 8px;
+  font-size: 0.87rem; font-weight: 800; color: #0D47A1; line-height: 1.5;
+}
+.leaf.dis-leaf .leaf-q { background: #FFF3E0; border-left-color: #FF7043; color: #BF360C; }
+
+/* ── SUB-LEAF ── */
+.sub-leaves { display: flex; flex-direction: column; gap: 5px; margin-top: 8px; }
+.sub-leaf {
+  background: #F5F5F5; border-radius: 8px; padding: 6px 10px;
+  font-size: 0.82rem; font-weight: 700; color: #444;
+  border-left: 3px solid #B0BEC5; line-height: 1.4;
+}
+.sub-leaf::before { content: '📌 '; }
+
+/* ── LEAF AUDIO BUTTONS ── */
+.leaf-audio {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--yellow); border: none; border-radius: 50px;
+  padding: 4px 12px; font-family: 'Nunito', sans-serif;
+  font-weight: 800; font-size: 0.78rem; cursor: pointer;
+  transition: all 0.2s; margin-top: 6px; color: #333;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.leaf-audio:hover { background: #FFC107; transform: scale(1.05); }
+.leaf-audio.playing { background: #43A047; color: white; }
+
+/* ── COMPARISON TABLE ── */
+.ctable-wrap { overflow-x: auto; }
+.ctable {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  border-radius: 20px; overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08); min-width: 460px;
+}
+.ctable thead th { font-family:'Fredoka One',cursive; font-size:1rem; padding:14px 12px; text-align:center; }
+.ctable th.ha { background:#ECEFF1; color:#546E7A; }
+.ctable th.hf { background:#C8E6C9; color:#1B5E20; }
+.ctable th.hc { background:#FFE0B2; color:#BF360C; }
+.ctable tbody tr:nth-child(odd)  td { background:#FAFAFA; }
+.ctable tbody tr:nth-child(even) td { background:#fff; }
+.ctable td { padding:12px 14px; text-align:center; font-weight:700; font-size:0.9rem; color:#333; border-top:1px solid #eee; line-height:1.45; }
+.ctable td.ac { font-weight:800; color:#546E7A; background:#ECEFF1 !important; }
+.tw { color:#2E7D32; } .tl { color:#B71C1C; }
+
+/* ── OPINION SECTION ── */
+.op-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap: 16px; }
+.op-card {
+  background: white; border-radius: 18px; padding: 16px 18px;
+  border-left: 5px solid #AB47BC;
+  box-shadow: 0 3px 14px rgba(0,0,0,0.07);
+}
+.op-q {
+  font-weight: 800; font-size: 0.92rem; color: #4A148C;
+  margin-bottom: 7px; line-height: 1.45;
+}
+.op-a {
+  font-weight: 700; font-size: 0.9rem; color: #555;
+  background: #F3E5F5; border-radius: 10px; padding: 9px 13px;
+  line-height: 1.5; margin-bottom: 9px;
+}
+.op-a strong { color: #E91E63; }
+
+/* Opinion audio row */
+.op-audio-row { display: flex; flex-wrap: wrap; gap: 7px; }
+.op-audio {
+  display: inline-flex; align-items: center; gap: 5px;
+  border: none; border-radius: 50px; padding: 5px 14px;
+  font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.8rem;
+  cursor: pointer; transition: all 0.2s; color: #333;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.op-audio.q-btn { background: #E3F2FD; color: #0D47A1; }
+.op-audio.a-btn { background: #F3E5F5; color: #6A1B9A; }
+.op-audio:hover { transform: scale(1.06); opacity: 0.85; }
+.op-audio.playing { background: #43A047 !important; color: white !important; }
+
+/* ── KNOWLEDGE BOX ── */
+.kbox {
+  background: linear-gradient(135deg,#FFFDE7,#FFF9C4);
+  border: 3px solid var(--yellow); border-radius: 18px; padding: 16px 20px; margin-top: 14px;
+}
+.kbox h3 {
+  font-family:'Fredoka One',cursive; font-size:1.05rem;
+  color:#E65100; display:flex; align-items:center; gap:7px; margin-bottom:10px; flex-wrap:wrap;
+}
+.kbox ul { list-style: none; }
+.kbox ul li {
+  padding: 5px 0 5px 26px; position: relative;
+  font-weight: 700; color: #4E342E; font-size: 0.9rem;
+  border-bottom: 1.5px dashed #FFE082; line-height: 1.45;
+}
+.kbox ul li:last-child { border-bottom: none; }
+.kbox ul li::before { content:'⭐'; position:absolute; left:0; top:5px; font-size:0.9rem; }
+
+/* ── SUMMARY ── */
+.sum-card {
+  background: linear-gradient(135deg,#E8EAF6,#C5CAE9);
+  border: 3px solid #5C6BC0; border-radius: 24px; padding: 28px 26px;
+  box-shadow: 0 8px 30px rgba(92,107,192,0.15);
+}
+.sum-card h2 {
+  font-family:'Fredoka One',cursive; font-size:1.8rem;
+  color:#1A237E; margin-bottom:18px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+}
+.sgrid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; }
+.sitem {
+  background:white; border-radius:14px; padding:14px 15px;
+  font-weight:700; color:#1A237E; font-size:0.91rem;
+  border-left:5px solid #5C6BC0; line-height:1.5;
+}
+.sitem .sn { font-family:'Fredoka One',cursive; font-size:1.25rem; color:#5C6BC0; display:block; margin-bottom:4px; }
+
+/* ── SCROLL REVEAL ── */
+.reveal { opacity:0; transform:translateY(22px); transition:opacity 0.55s ease,transform 0.55s ease; }
+.reveal.vis { opacity:1; transform:translateY(0); }
+
+@media(max-width:640px){
+  .branches { grid-template-columns:1fr; }
+  .hbar { padding:0 10%; }
+  .hbar::before { left:10%; right:10%; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>🥦 Fresh Food vs 🥫 Canned Food</h1>
+  <div class="sub">🎓 Mind Map — Advantages &amp; Disadvantages 🗺️</div>
+</div>
+
+<!-- 🇻🇳 TOGGLE BUTTON -->
+<div class="vn-toggle-wrap">
+  <button class="vn-toggle" id="vnBtn" onclick="toggleVN()">
+    🇻🇳 Hiện Tiếng Việt
+  </button>
+</div>
+
+<!-- NAV TABS -->
+<div class="tabs">
+  <a class="tab tf" href="#fresh-map">🥦 Fresh Food</a>
+  <a class="tab tc" href="#canned-map">🥫 Canned Food</a>
+  <a class="tab tb" href="#compare">📊 Compare</a>
+  <a class="tab" style="color:#4A148C;border-color:#AB47BC" href="#opinion">💬 Opinions</a>
+  <a class="tab" style="color:#1A237E;border-color:#5C6BC0" href="#summary">🏆 Summary</a>
+</div>
+
+<!-- ══════════════════════════════
+     FRESH FOOD MIND MAP
+══════════════════════════════ -->
+<div class="section" id="fresh-map">
+  <div class="section-title st-fresh">🥦 FRESH FOOD — Mind Map</div>
+
+  <div class="mindmap reveal">
+    <div class="center-node cn-fresh">
+      🥦 FRESH FOOD
+      <div class="vn" style="font-size:1rem;font-family:'Nunito',sans-serif;font-weight:800;margin-top:4px">Thực phẩm tươi</div>
+    </div>
+    <div class="vline" style="background:var(--fresh-mid)"></div>
+    <div class="hbar"><div class="tick"></div><div class="tick"></div></div>
+
+    <div class="branches">
+      <!-- LEFT: ADVANTAGES -->
+      <div class="branch-col">
+        <div class="branch-head bh-adv">✅ Advantages
+          <div class="vn" style="font-size:0.85rem;font-family:'Nunito',sans-serif;font-weight:800">Ưu điểm</div>
+        </div>
+        <div class="leaves">
+
+          <!-- ADV 1 -->
+          <div class="leaf adv-leaf">
+            <span class="leaf-title">😋 Tastes Better <span class="vn" style="font-family:'Nunito',sans-serif;font-size:0.85rem">— Ngon hơn</span></span>
+            <div class="leaf-q">❓ What is one advantage of fresh food? (taste)
+              <div class="vn">Một ưu điểm của thực phẩm tươi là gì? (về vị)</div>
+            </div>
+            <div class="leaf-body">
+              Natural, delicious flavor — no added salt, sugar, or chemicals. Sweet, crunchy, and yummy!
+              <div class="vn">Hương vị tự nhiên, ngon — không thêm muối, đường hay hóa chất. Ngọt, giòn và rất ngon!</div>
+            </div>
+            <div class="sub-leaves">
+              <div class="sub-leaf">Natural flavor = no chemicals
+                <div class="vn">Hương vị tự nhiên = không có hóa chất</div>
+              </div>
+              <div class="sub-leaf">"One <strong>advantage</strong> of fresh food is that it tastes better."
+                <div class="vn">Một ưu điểm của thực phẩm tươi là nó ngon hơn.</div>
+              </div>
+            </div>
+            <div>
+              <button class="leaf-audio" onclick="playAudio('1.wav',this)">🔊 Q (1.wav)</button>
+              <button class="leaf-audio" onclick="playAudio('2.wav',this)">🔊 A (2.wav)</button>
+            </div>
+          </div>
+
+          <!-- ADV 2 -->
+          <div class="leaf adv-leaf">
+            <span class="leaf-title">💪 Healthier <span class="vn" style="font-family:'Nunito',sans-serif;font-size:0.85rem">— Tốt cho sức khỏe hơn</span></span>
+            <div class="leaf-q">❓ Do you believe there is a health advantage of fresh food?
+              <div class="vn">Bạn có tin rằng thực phẩm tươi có ưu điểm về sức khỏe không?</div>
+            </div>
+            <div class="leaf-body">
+              More vitamins &amp; minerals. No preservatives or extra salt → helps body grow strong!
+              <div class="vn">Nhiều vitamin và khoáng chất hơn. Không có chất bảo quản hay muối → giúp cơ thể khỏe mạnh!</div>
+            </div>
+            <div class="sub-leaves">
+              <div class="sub-leaf">Vitamins &amp; minerals = essential nutrients
+                <div class="vn">Vitamin &amp; khoáng chất = chất dinh dưỡng thiết yếu</div>
+              </div>
+              <div class="sub-leaf">Preservatives = chemicals to keep food from going bad
+                <div class="vn">Chất bảo quản = hóa chất giữ thực phẩm không bị hỏng</div>
+              </div>
+            </div>
+            <div>
+              <button class="leaf-audio" onclick="playAudio('3.wav',this)">🔊 Q (3.wav)</button>
+              <button class="leaf-audio" onclick="playAudio('4.wav',this)">🔊 A (4.wav)</button>
+            </div>
+          </div>
+
+          <!-- ADV 3 -->
+          <div class="leaf adv-leaf">
+            <span class="leaf-title">🌍 Less Waste <span class="vn" style="font-family:'Nunito',sans-serif;font-size:0.85rem">— Ít rác thải hơn</span></span>
+            <div class="leaf-q">❓ In your opinion, what is another advantage of fresh food?
+              <div class="vn">Theo bạn, một ưu điểm khác của thực phẩm tươi là gì?</div>
+            </div>
+            <div class="leaf-body">
+              Peels &amp; skins are biodegradable — break down naturally in soil. Eco-friendly choice!
+              <div class="vn">Vỏ và bã có thể phân hủy sinh học — tự phân hủy trong đất. Lựa chọn thân thiện môi trường!</div>
+            </div>
+            <div class="sub-leaves">
+              <div class="sub-leaf">Biodegradable = breaks down in soil naturally 🌱
+                <div class="vn">Phân hủy sinh học = tự phân hủy trong đất</div>
+              </div>
+              <div class="sub-leaf">Better for the environment 🌍
+                <div class="vn">Tốt hơn cho môi trường</div>
+              </div>
+            </div>
+            <div>
+              <button class="leaf-audio" onclick="playAudio('5.wav',this)">🔊 Q (5.wav)</button>
+              <button class="leaf-audio" onclick="playAudio('6.wav',this)">🔊 A (6.wav)</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RIGHT: DISADVANTAGES -->
+      <div class="branch-col">
+        <div class="branch-head bh-dis">❌ Disadvantages
+          <div class="vn" style="font-size:0.85rem;font-family:'Nunito',sans-serif;font-weight:800">Nhược điểm</div>
+        </div>
+        <div class="leaves">
+
+          <!-- DIS 1 -->
+          <div class="leaf dis-leaf">
+            <span class="leaf-title">⏰ Spoils Quickly <span class="vn" style="font-family:'Nunito',sans-serif;font-size:0.85rem">— Hỏng nhanh</span></span>
+            <div class="leaf-q">❓ What is one disadvantage of fresh food? (how long it lasts)
+              <div class="vn">Một nhược điểm của thực phẩm tươi là gì? (về thời hạn)</div>
+            </div>
+            <div class="leaf-body">
+              Only lasts 2–7 days! Must keep in a fridge. Easy to forget and throw away.
+              <div class="vn">Chỉ để được 2–7 ngày! Phải để trong tủ lạnh. Dễ quên và phải bỏ đi.</div>
+            </div>
+            <div class="sub-leaves">
+              <div class="sub-leaf">Spoils quickly = goes bad in a short time
+                <div class="vn">Hỏng nhanh = bị hư trong thời gian ngắn</div>
+              </div>
+              <div class="sub-leaf">Needs a fridge to stay fresh
+                <div class="vn">Cần tủ lạnh để giữ tươi</div>
+              </div>
+            </div>
+            <div>
+              <button class="leaf-audio" onclick="playAudio('7.wav',this)">🔊 Q (7.wav)</button>
+              <button class="leaf-audio" onclick="playAudio('8.wav',this)">🔊 A (8.wav)</button>
+            </div>
+          </div>
+
+          <!-- DIS 2 -->
+          <div class="leaf dis-leaf">
+            <span class="leaf-title">💸 More Expensive <span class="vn" style="font-family:'Nunito',sans-serif;font-size:0.85rem">— Đắt hơn</span></span>
+            <div class="leaf-q">❓ Do you think fresh food has another disadvantage? (about price)
+              <div class="vn">Bạn có nghĩ thực phẩm tươi có nhược điểm khác không? (về giá)</div>
+            </div>
+            <div class="leaf-body">
+              Fresh fruits &amp; vegetables often cost more. Need to go to market often to buy fresh food.
+              <div class="vn">Trái cây và rau quả tươi thường đắt hơn. Phải đi chợ thường xuyên.</div>
+            </div>
+            <div class="sub-leaves">
+              <div class="sub-leaf">Frequently = often (need to shop regularly)
+                <div class="vn">Thường xuyên = hay (cần đi mua sắm đều đặn)</div>
+              </div>
+              <div class="sub-leaf">"Another <strong>disadvantage</strong> is that it can be more expensive."
+                <div class="vn">Một nhược điểm khác là nó có thể đắt hơn.</div>
+              </div>
+            </div>
+            <div>
+              <button class="leaf-audio" onclick="playAudio('9.wav',this)">🔊 Q (9.wav)</button>
+              <button class="leaf-audio" onclick="playAudio('10.wav',this)">🔊 A (10.wav)</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div><!-- /branches -->
+  </div><!-- /mindmap -->
+</div>
+
+<!-- ══════════════════════════════
+     CANNED FOOD MIND MAP
+══════════════════════════════ -->
+<div class="section" id="canned-map">
+  <div class="section-title st-canned">🥫 CANNED FOOD — Mind Map</div>
+
+  <div class="mindmap reveal">
+    <div class="center-node cn-canned">
+      🥫 CANNED FOOD
+      <div class="vn" style="font-size:1rem;font-family:'Nunito',sans-serif;font-weight:800;margin-top:4px">Thực phẩm đóng hộp</div>
+    </div>
+    <div class="vline" style="background:var(--canned-mid)"></div>
+    <div class="hbar"><div class="tick"></div><div class="tick"></div></div>
+
+    <div class="branches">
+      <!-- LEFT: ADVANTAGES -->
+      <div class="branch-col">
+        <div class="branch-head bh-adv">✅ Advantages
+          <div class="vn" style="font-size:0.85rem;font-family:'Nunito',sans-serif;font-weight:800">Ưu điểm</div>
+        </div>
+        <div class="leaves">
+
+          <!-- ADV 1 -->
+          <div class="leaf adv-leaf">
+            <span class="leaf-title">📅 Lasts Much Longer <span class="vn" style="font-family:'Nunito',sans-serif;font-size:0.85rem">— Để được lâu hơn nhiều</span></span>
+            <div class="leaf-q">❓ What do you think is one advantage of canned food?
+              <div class="vn">Theo bạn, một ưu điểm của thực phẩm đóng hộp là gì?</div>
+            </div>
+            <div class="leaf-body">
+              Can last 1–5 years! No fridge needed — store in a cupboard and eat anytime.
+              <div class="vn">Có thể để được 1–5 năm! Không cần tủ lạnh — cất trong tủ và ăn bất cứ lúc nào.</div>
+            </div>
+            <div class="sub-leaves">
+              <div class="sub-leaf">1–5 years vs only 2–7 days for fresh food
+                <div class="vn">1–5 năm so với chỉ 2–7 ngày của thực phẩm tươi</div>
+              </div>
+              <div class="sub-leaf">Great for emergencies 🚨
+                <div class="vn">Rất tốt cho trường hợp khẩn cấp</div>
+              </div>
+            </div>
+            <div>
+              <button class="leaf-audio" onclick="playAudio('11.wav',this)">🔊 Q (11.wav)</button>
+              <button class="leaf-audio" onclick="playAudio('12.wav',this)">🔊 A (12.wav)</button>
+            </div>
+          </div>
+
+          <!-- ADV 2 -->
+          <div class="leaf adv-leaf">
+            <span class="leaf-title">🎒 Very Convenient <span class="vn" style="font-family:'Nunito',sans-serif;font-size:0.85rem">— Rất tiện lợi</span></span>
+            <div class="leaf-q">❓ In your opinion, what is another advantage of canned food?
+              <div class="vn">Theo bạn, một ưu điểm khác của thực phẩm đóng hộp là gì?</div>
+            </div>
+            <div class="leaf-body">
+              Open a can quickly — no much cooking needed. Perfect for busy people and trips!
+              <div class="vn">Mở hộp nhanh — không cần nấu nhiều. Hoàn hảo cho người bận rộn và đi du lịch!</div>
+            </div>
+            <div class="sub-leaves">
+              <div class="sub-leaf">Convenient = easy to use, quick to prepare
+                <div class="vn">Tiện lợi = dễ dùng, chuẩn bị nhanh</div>
+              </div>
+              <div class="sub-leaf">Great for camping 🏕️ and travel
+                <div class="vn">Rất tốt cho cắm trại và đi du lịch</div>
+              </div>
+            </div>
+            <div>
+              <button class="leaf-audio" onclick="playAudio('13.wav',this)">🔊 Q (13.wav)</button>
+              <button class="leaf-audio" onclick="playAudio('14.wav',this)">🔊 A (14.wav)</button>
+            </div>
+          </div>
+
+          <!-- ADV 3 -->
+          <div class="leaf adv-leaf">
+            <span class="leaf-title">💰 Usually Cheaper <span class="vn" style="font-family:'Nunito',sans-serif;font-size:0.85rem">— Thường rẻ hơn</span></span>
+            <div class="leaf-q">❓ Do you think there is a price advantage to canned food?
+              <div class="vn">Bạn có nghĩ thực phẩm đóng hộp có ưu điểm về giá không?</div>
+            </div>
+            <div class="leaf-body">
+              Canned food is often cheaper than fresh food. Good for saving money!
+              <div class="vn">Thực phẩm đóng hộp thường rẻ hơn thực phẩm tươi. Tốt để tiết kiệm tiền!</div>
+            </div>
+            <div class="sub-leaves">
+              <div class="sub-leaf">Budget-friendly option for families
+                <div class="vn">Lựa chọn tiết kiệm cho các gia đình</div>
+              </div>
+            </div>
+            <div>
+              <button class="leaf-audio" onclick="playAudio('15.wav',this)">🔊 Q (15.wav)</button>
+              <button class="leaf-audio" onclick="playAudio('16.wav',this)">🔊 A (16.wav)</button>
+            </div>
+          </div>
+          
+
+        </div>
+      </div>
+
+      <!-- RIGHT: DISADVANTAGES -->
+      <div class="branch-col">
+        <div class="branch-head bh-dis">❌ Disadvantages
+          <div class="vn" style="font-size:0.85rem;font-family:'Nunito',sans-serif;font-weight:800">Nhược điểm</div>
+        </div>
+        <div class="leaves">
+
+          <!-- DIS 1 -->
+          <div class="leaf dis-leaf">
+            <span class="leaf-title">🧂 Too Much Salt <span class="vn" style="font-family:'Nunito',sans-serif;font-size:0.85rem">— Quá nhiều muối</span></span>
+            <div class="leaf-q">❓ What is one disadvantage of canned food? (about health)
+              <div class="vn">Một nhược điểm của thực phẩm đóng hộp là gì? (về sức khỏe)</div>
+            </div>
+            <div class="leaf-body">
+              Too much sodium (salt) added to keep it fresh. Bad for heart and blood pressure!
+              <div class="vn">Thêm quá nhiều natri (muối) để giữ tươi. Có hại cho tim và huyết áp!</div>
+            </div>
+            <div class="sub-leaves">
+              <div class="sub-leaf">Sodium = scientific word for salt
+                <div class="vn">Sodium = từ khoa học của muối</div>
+              </div>
+              <div class="sub-leaf">Too much salt → bad for heart ❤️
+                <div class="vn">Quá nhiều muối → có hại cho tim</div>
+              </div>
+            </div>
+            <div>
+              <button class="leaf-audio" onclick="playAudio('17.wav',this)">🔊 Q (17.wav)</button>
+              <button class="leaf-audio" onclick="playAudio('18.wav',this)">🔊 A (18.wav)</button>
+            </div>
+          </div>
+
+          <!-- DIS 2 -->
+          <div class="leaf dis-leaf">
+            <span class="leaf-title">🗑️ Metal Waste <span class="vn" style="font-family:'Nunito',sans-serif;font-size:0.85rem">— Rác thải kim loại</span></span>
+            <div class="leaf-q">❓ Do you believe canned food has another disadvantage? (environment)
+              <div class="vn">Bạn có tin thực phẩm đóng hộp có nhược điểm khác không? (môi trường)</div>
+            </div>
+            <div class="leaf-body">
+              Metal cans left after eating. Hard for Earth to break down — must recycle!
+              <div class="vn">Vỏ hộp kim loại còn lại sau khi ăn. Trái đất khó phân hủy — phải tái chế!</div>
+            </div>
+            <div class="sub-leaves">
+              <div class="sub-leaf">Metal cans do not decompose easily
+                <div class="vn">Vỏ hộp kim loại không dễ phân hủy</div>
+              </div>
+              <div class="sub-leaf">Always recycle ♻️ to help the planet!
+                <div class="vn">Luôn tái chế để bảo vệ hành tinh!</div>
+              </div>
+            </div>
+            <div>
+              <button class="leaf-audio" onclick="playAudio('19.wav',this)">🔊 Q (19.wav)</button>
+              <button class="leaf-audio" onclick="playAudio('20.wav',this)">🔊 A (20.wav)</button>
+            </div>
+          </div>
+
+          <!-- DIS 3 -->
+          <div class="leaf dis-leaf">
+            <span class="leaf-title">💊 Fewer Vitamins <span class="vn" style="font-family:'Nunito',sans-serif;font-size:0.85rem">— Ít vitamin hơn</span></span>
+            <div class="leaf-q">❓ What is another health disadvantage of canned food?
+              <div class="vn">Một nhược điểm sức khỏe khác của thực phẩm đóng hộp là gì?</div>
+            </div>
+            <div class="leaf-body">
+              Processing removes some vitamins. Less nutritious than fresh food.
+              <div class="vn">Quá trình chế biến làm mất một số vitamin. Ít dinh dưỡng hơn thực phẩm tươi.</div>
+            </div>
+            <div class="sub-leaves">
+              <div class="sub-leaf">Processing = cooking &amp; sealing removes nutrients
+                <div class="vn">Chế biến = nấu &amp; đóng gói làm mất chất dinh dưỡng</div>
+              </div>
+            </div>
+          <div>
+              <button class="leaf-audio" onclick="playAudio('21.wav',this)">🔊 Q (21.wav)</button>
+              <button class="leaf-audio" onclick="playAudio('22.wav',this)">🔊 A (22.wav)</button>
+            </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     COMPARISON TABLE
+══════════════════════════════ -->
+<div class="section" id="compare">
+  <div class="section-title st-compare">📊 Comparison Table</div>
+
+  <div class="reveal" style="background:white;border-radius:24px;box-shadow:0 4px 24px rgba(0,0,0,0.08);padding:22px;overflow:hidden">
+    <div class="ctable-wrap">
+      <table class="ctable">
+        <thead>
+          <tr>
+            <th class="ha">🔍 Aspect<div class="vn">Khía cạnh</div></th>
+            <th class="hf">🥦 Fresh Food<div class="vn">Thực phẩm tươi</div></th>
+            <th class="hc">🥫 Canned Food<div class="vn">Thực phẩm đóng hộp</div></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="ac">😋 Taste<div class="vn">Hương vị</div></td>
+            <td class="tw">✅ Better, more natural<div class="vn">Ngon hơn, tự nhiên hơn</div></td>
+            <td class="tl">❌ OK but salty / processed<div class="vn">Tạm được nhưng mặn / qua chế biến</div></td>
+          </tr>
+          <tr>
+            <td class="ac">💪 Health<div class="vn">Sức khỏe</div></td>
+            <td class="tw">✅ More vitamins, no salt<div class="vn">Nhiều vitamin hơn, không muối thêm</div></td>
+            <td class="tl">❌ Too much sodium<div class="vn">Quá nhiều natri (muối)</div></td>
+          </tr>
+          <tr>
+            <td class="ac">⏰ How Long It Lasts<div class="vn">Thời hạn sử dụng</div></td>
+            <td class="tl">❌ Only 2–7 days<div class="vn">Chỉ 2–7 ngày</div></td>
+            <td class="tw">✅ 1–5 years!<div class="vn">1–5 năm!</div></td>
+          </tr>
+          <tr>
+            <td class="ac">🎒 Convenience<div class="vn">Tiện lợi</div></td>
+            <td class="tl">❌ Need fridge, shop often<div class="vn">Cần tủ lạnh, hay đi mua</div></td>
+            <td class="tw">✅ Easy, no fridge needed<div class="vn">Dễ dùng, không cần tủ lạnh</div></td>
+          </tr>
+          <tr>
+            <td class="ac">💰 Price<div class="vn">Giá cả</div></td>
+            <td class="tl">❌ Often more expensive<div class="vn">Thường đắt hơn</div></td>
+            <td class="tw">✅ Usually cheaper<div class="vn">Thường rẻ hơn</div></td>
+          </tr>
+          <tr>
+            <td class="ac">🌍 Environment<div class="vn">Môi trường</div></td>
+            <td class="tw">✅ Biodegradable peels<div class="vn">Vỏ phân hủy sinh học</div></td>
+            <td class="tl">❌ Metal waste, cans<div class="vn">Rác thải kim loại, vỏ hộp</div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="kbox" style="margin-top:18px">
+      <h3>📚 Key Vocabulary <span class="vn" style="font-size:0.9rem;font-style:italic;font-weight:700">— Từ vựng quan trọng</span></h3>
+      <ul>
+        <li><strong>Advantage</strong> = a good point ✅ | <strong>Disadvantage</strong> = a bad point ❌
+          <div class="vn">Ưu điểm = điểm tốt | Nhược điểm = điểm xấu</div>
+        </li>
+        <li><strong>Spoils</strong> = goes bad | <strong>Biodegradable</strong> = breaks down naturally
+          <div class="vn">Hỏng = bị hư | Phân hủy sinh học = tự phân hủy trong tự nhiên</div>
+        </li>
+        <li><strong>Sodium</strong> = salt | <strong>Preservatives</strong> = chemicals to keep food fresh
+          <div class="vn">Natri = muối | Chất bảo quản = hóa chất giữ thực phẩm tươi</div>
+        </li>
+        <li><strong>Convenient</strong> = easy &amp; quick to use
+          <div class="vn">Tiện lợi = dễ sử dụng và nhanh chóng</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     OPINION SECTION
+══════════════════════════════ -->
+<div class="section" id="opinion">
+  <div class="section-title st-opinion">💬 Opinion Questions</div>
+  <p style="font-weight:800;color:#555;margin-bottom:20px;padding:0 4px">
+    🗣️ Use <strong>I think / I believe / In my opinion</strong> to answer!
+    <span class="vn" style="color:#B71C1C;font-style:italic;font-weight:700;font-size:0.9rem;margin-top:4px">Dùng <strong>I think / I believe / In my opinion</strong> để trả lời!</span>
+  </p>
+
+  <div class="op-grid reveal">
+
+    <!-- OP 1 -->
+    <div class="op-card">
+      <div class="op-q">💬 What is the biggest advantage of fresh food?
+        <div class="vn">Ưu điểm lớn nhất của thực phẩm tươi là gì?</div>
+      </div>
+      <div class="op-a">
+        <strong>I think</strong> the biggest advantage of fresh food is that it is healthier — more vitamins and no salt.
+        <div class="vn">Tôi nghĩ ưu điểm lớn nhất là nó tốt cho sức khỏe hơn — nhiều vitamin và không có muối.</div>
+      </div>
+      <div class="op-audio-row">
+        <button class="op-audio q-btn" onclick="playAudio('23.wav',this)">🔊 Question (23.wav)</button>
+        <button class="op-audio a-btn" onclick="playAudio('24.wav',this)">🔊 Answer (24.wav)</button>
+      </div>
+    </div>
+
+    <!-- OP 2 -->
+    <div class="op-card">
+      <div class="op-q">💬 What is the biggest disadvantage of fresh food?
+        <div class="vn">Nhược điểm lớn nhất của thực phẩm tươi là gì?</div>
+      </div>
+      <div class="op-a">
+        <strong>In my opinion,</strong> the biggest disadvantage is that it spoils quickly — only a few days!
+        <div class="vn">Theo tôi, nhược điểm lớn nhất là nó hỏng nhanh — chỉ vài ngày thôi!</div>
+      </div>
+      <div class="op-audio-row">
+        <button class="op-audio q-btn" onclick="playAudio('25.wav',this)">🔊 Question (25.wav)</button>
+        <button class="op-audio a-btn" onclick="playAudio('26.wav',this)">🔊 Answer (26.wav)</button>
+      </div>
+    </div>
+
+    <!-- OP 3 -->
+    <div class="op-card">
+      <div class="op-q">💬 Does canned food have more advantages than disadvantages?
+        <div class="vn">Thực phẩm đóng hộp có nhiều ưu điểm hơn nhược điểm không?</div>
+      </div>
+      <div class="op-a">
+        <strong>I believe</strong> canned food has some advantages like lasting long and being convenient, but also disadvantages like too much salt.
+        <div class="vn">Tôi tin rằng thực phẩm đóng hộp có một số ưu điểm như để lâu và tiện lợi, nhưng cũng có nhược điểm như quá nhiều muối.</div>
+      </div>
+      <div class="op-audio-row">
+        <button class="op-audio q-btn" onclick="playAudio('27.wav',this)">🔊 Question (27.wav)</button>
+        <button class="op-audio a-btn" onclick="playAudio('28.wav',this)">🔊 Answer (28.wav)</button>
+      </div>
+    </div>
+
+    <!-- OP 4 -->
+    <div class="op-card">
+      <div class="op-q">💬 What is the worst disadvantage of canned food?
+        <div class="vn">Nhược điểm tệ nhất của thực phẩm đóng hộp là gì?</div>
+      </div>
+      <div class="op-a">
+        <strong>I think</strong> the worst disadvantage is too much salt — it is bad for our heart.
+        <div class="vn">Tôi nghĩ nhược điểm tệ nhất là quá nhiều muối — nó có hại cho tim của chúng ta.</div>
+      </div>
+      <div class="op-audio-row">
+        <button class="op-audio q-btn" onclick="playAudio('29.wav',this)">🔊 Question (29.wav)</button>
+        <button class="op-audio a-btn" onclick="playAudio('30.wav',this)">🔊 Answer (30.wav)</button>
+      </div>
+    </div>
+
+    <!-- OP 5 -->
+    <div class="op-card">
+      <div class="op-q">💬 Which food has more advantages — fresh or canned?
+        <div class="vn">Loại thực phẩm nào có nhiều ưu điểm hơn — tươi hay đóng hộp?</div>
+      </div>
+      <div class="op-a">
+        <strong>In my opinion,</strong> fresh food has more advantages because it is healthier, tastier, and better for the environment.
+        <div class="vn">Theo tôi, thực phẩm tươi có nhiều ưu điểm hơn vì nó tốt hơn cho sức khỏe, ngon hơn và tốt cho môi trường hơn.</div>
+      </div>
+      <div class="op-audio-row">
+        <button class="op-audio q-btn" onclick="playAudio('31.wav',this)">🔊 Question (31.wav)</button>
+        <button class="op-audio a-btn" onclick="playAudio('32.wav',this)">🔊 Answer (32.wav)</button>
+      </div>
+    </div>
+
+    <!-- OP 6 -->
+    <div class="op-card">
+      <div class="op-q">💬 Which food do you prefer to eat?
+        <div class="vn">Bạn thích ăn loại thực phẩm nào hơn?</div>
+      </div>
+      <div class="op-a">
+        <strong>I think</strong> I prefer fresh food because it tastes better and is healthier for my body.
+        <div class="vn">Tôi nghĩ tôi thích thực phẩm tươi hơn vì nó ngon hơn và tốt cho cơ thể tôi hơn.</div>
+      </div>
+      <div class="op-audio-row">
+        <button class="op-audio q-btn" onclick="playAudio('33.wav',this)">🔊 Question (33.wav)</button>
+        <button class="op-audio a-btn" onclick="playAudio('34.wav',this)">🔊 Answer (34.wav)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="kbox reveal" style="margin-top:18px">
+    <h3>📚 Opinion Phrases — Remember! <span class="vn" style="font-size:0.9rem;font-style:italic">— Nhớ các cụm từ ý kiến!</span></h3>
+    <ul>
+      <li><strong>I think</strong> + subject + verb → "I think fresh food is healthier."
+        <div class="vn">Tôi nghĩ + chủ ngữ + động từ</div>
+      </li>
+      <li><strong>I believe</strong> + subject + verb → "I believe canned food lasts longer."
+        <div class="vn">Tôi tin rằng + chủ ngữ + động từ</div>
+      </li>
+      <li><strong>In my opinion,</strong> + subject + verb → "In my opinion, fresh food is better."
+        <div class="vn">Theo tôi, + chủ ngữ + động từ</div>
+      </li>
+      <li><strong>Spoils</strong> /spɔɪlz/ (động từ) nghĩa là:<strong>👉 bị hỏng / bị ôi / không còn ăn được nữa .<br> 'Spoils quickly = goes bad in a short time' <br><strong>The milk spoils quickly.</strong> (Sữa nhanh bị hỏng)  "
+        <div class="vn">The milk spoils quickly.(Sữa nhanh bị hỏng)</div>
+        <button class="op-audio q-btn" onclick="playAudio('35.wav',this)">🔊 play (35.wav)</button>
+         <button class="op-audio q-btn" onclick="playAudio('36.wav',this)">🔊 play (36.wav)</button>
+         <button class="op-audio q-btn" onclick="playAudio('37.wav',this)">🔊 play (37.wav)</button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     SUMMARY
+══════════════════════════════ -->
+<div class="section" id="summary">
+  <div class="section-title st-summary">🏆 What Did I Learn Today?</div>
+
+  <div class="sum-card reveal">
+    <h2>🏆 Summary <span class="vn" style="font-size:1.1rem;font-weight:700;font-family:'Nunito',sans-serif">— Tóm tắt</span></h2>
+    <div class="sgrid">
+      <div class="sitem"><span class="sn">✅ ADV 1</span><strong>Fresh food:</strong> Tastes better &amp; more natural!<div class="vn">Thực phẩm tươi: Ngon hơn và tự nhiên hơn!</div></div>
+      <div class="sitem"><span class="sn">✅ ADV 2</span><strong>Fresh food:</strong> Healthier — more vitamins, no salt.<div class="vn">Tốt cho sức khỏe hơn — nhiều vitamin, không muối.</div></div>
+      <div class="sitem"><span class="sn">✅ ADV 3</span><strong>Fresh food:</strong> Less waste — biodegradable peels 🌱<div class="vn">Ít rác thải hơn — vỏ phân hủy sinh học.</div></div>
+      <div class="sitem"><span class="sn">❌ DIS 1</span><strong>Fresh food:</strong> Spoils quickly — only 2–7 days!<div class="vn">Hỏng nhanh — chỉ 2–7 ngày!</div></div>
+      <div class="sitem"><span class="sn">❌ DIS 2</span><strong>Fresh food:</strong> More expensive &amp; needs a fridge.<div class="vn">Đắt hơn và cần tủ lạnh.</div></div>
+      <div class="sitem"><span class="sn">✅ ADV 4</span><strong>Canned food:</strong> Lasts 1–5 years, no fridge!<div class="vn">Thực phẩm đóng hộp: Để được 1–5 năm, không cần tủ lạnh!</div></div>
+      <div class="sitem"><span class="sn">✅ ADV 5</span><strong>Canned food:</strong> Very convenient &amp; easy.<div class="vn">Rất tiện lợi và dễ dùng.</div></div>
+      <div class="sitem"><span class="sn">✅ ADV 6</span><strong>Canned food:</strong> Usually cheaper 💰<div class="vn">Thường rẻ hơn.</div></div>
+      <div class="sitem"><span class="sn">❌ DIS 3</span><strong>Canned food:</strong> Too much salt — bad for heart!<div class="vn">Quá nhiều muối — có hại cho tim!</div></div>
+      <div class="sitem"><span class="sn">❌ DIS 4</span><strong>Canned food:</strong> Metal waste — hard for Earth.<div class="vn">Rác thải kim loại — khó phân hủy.</div></div>
+      <div class="sitem"><span class="sn">📝</span><em>"One <strong>advantage</strong> of … is that …"</em><br><em>"One <strong>disadvantage</strong> of … is that …"</em><div class="vn">Một ưu / nhược điểm của … là …</div></div>
+      <div class="sitem"><span class="sn">⚖️</span>Eat more <strong>fresh food</strong> for health! Keep <strong>canned food</strong> for emergencies!<div class="vn">Ăn nhiều thực phẩm tươi để khỏe! Để thực phẩm đóng hộp cho tình huống khẩn cấp!</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── AUDIO ──
+let curAud = null, curBtn = null;
+function playAudio(file, btn) {
+  if (curAud) {
+    curAud.pause(); curAud.currentTime = 0;
+    if (curBtn) { curBtn.classList.remove('playing'); curBtn.textContent = curBtn._orig; }
+  }
+  if (curBtn === btn) { curAud = null; curBtn = null; return; }
+  const a = new Audio(file);
+  curAud = a; curBtn = btn;
+  if (!btn._orig) btn._orig = btn.textContent;
+  btn.classList.add('playing'); btn.textContent = '⏸️ Playing...';
+  a.play().catch(() => {
+    btn.classList.remove('playing'); btn.textContent = '🔇 Not found';
+    btn.style.background = '#ffcccc';
+    setTimeout(() => { btn.textContent = btn._orig; btn.style.background = ''; }, 2500);
+    curAud = null; curBtn = null;
+  });
+  a.onended = () => {
+    btn.classList.remove('playing'); btn.textContent = '✅ Done!';
+    setTimeout(() => { btn.textContent = btn._orig; }, 2000);
+    curAud = null; curBtn = null;
+  };
+}
+
+// ── VIETNAMESE TOGGLE ──
+function toggleVN() {
+  const isOn = document.body.classList.toggle('show-vn');
+  const btn = document.getElementById('vnBtn');
+  btn.classList.toggle('active', isOn);
+  btn.textContent = isOn ? '🇻🇳 Ẩn Tiếng Việt' : '🇻🇳 Hiện Tiếng Việt';
+}
+
+// ── SCROLL REVEAL ──
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.06 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ── SMOOTH SCROLL ──
+document.querySelectorAll('a[href^="#"]').forEach(a =>
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+  })
+);
+</script>
+</body>
+</html>
